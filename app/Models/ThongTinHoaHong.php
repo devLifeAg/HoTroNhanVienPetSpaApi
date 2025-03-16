@@ -28,6 +28,6 @@ class ThongTinHoaHong extends Model
 
     public function getDichVuCon()
     {
-        return $this->belongsTo(DichVu::class, 'dvc_id', 'dvc_id');
+        return $this->belongsTo(DichVuCon::class, 'dvc_id', 'dvc_id');
     }
 }

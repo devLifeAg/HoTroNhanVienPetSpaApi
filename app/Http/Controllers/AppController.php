@@ -11,6 +11,7 @@ use App\Models\TangCa;
 use App\Models\ThongTinHoaHong;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class AppController extends Controller
 {
@@ -360,16 +361,63 @@ class AppController extends Controller
             ];
 
             // if ($data['soLuongDvLam'] > 0) {
-                return response()->json([
-                    'bangluong' => $data
-                ], 200);
+            return response()->json([
+                'bangluong' => $data
+            ], 200);
             // }
-            
+
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Lỗi khi lấy dữ liệu!',
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    function callDeepseekR1($prompt)
+    {
+        // $prompt = $request->input('input');
+        $apiKey = env('DEEPSEEK_API_KEY');
+
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer $apiKey",
+            'Content-Type'  => 'application/json',
+        ])->timeout(60)->post('https://openrouter.ai/api/v1/chat/completions', [
+            'model'    => 'deepseek/deepseek-r1-distill-llama-70b:free',
+            'messages' => [
+                ['role' => 'user', 'content' => $prompt]
+            ],
+        ]);
+
+        return $response->json();
+    }
+
+    public function aiPhanTichTaiChinh(Request $request)
+    {
+        $soTienMuonDat = $request->input('money');
+        $thoiGian = $request->input('time');
+
+        $listDichVu = DichVu::with('listDichVuCon')->get();
+
+        $result = $listDichVu->map(function ($dichVu) {
+            return $dichVu->tendichvu . ": " .
+                ($dichVu->getAverageCommission() !== null
+                    ? $dichVu->getAverageCommission() . " đồng/dịch vụ"
+                    : "chưa có bản ghi cho dịch vụ này");
+        })->toArray();
+
+        $servicesText = implode(", ", $result);
+
+        $prompt = "Phân tích cho tôi phải làm những gì để đạt mức thu nhập " . $soTienMuonDat . " đồng trong " . $thoiGian . " với các số liệu sau: "
+            . "Lương cứng và phụ cấp một tháng nếu không có ngày nghỉ: "
+            . "Lương cứng: 5000000 đồng, "
+            . "Phụ cấp: 900000 đồng, tăng ca 1h 30000 đồng. "
+            . "Trung bình tiền hoa hồng của mỗi dịch vụ làm cho chó mèo: "
+            . $servicesText . ". Hãy trả lời ngắn gọn bằng tiếng việt và không dùng ký hiệu đặc biệt";
+            
+        // Gọi API OpenRouter thông qua callDeepseekR1
+        $apiResponse = $this->callDeepseekR1($prompt);
+
+        return response()->json($apiResponse);
     }
 }

@@ -29,3 +29,8 @@ Route::delete('/HoTroNhanVienPetSpaApi/deletetangca', [AppController::class, 'xo
 
 //xem bảng lương
 Route::get('/HoTroNhanVienPetSpaApi/getbangluong', [AppController::class, 'getBangLuong']);
+
+//call api
+Route::post('/callDeepSeekAPI', [AppController::class, 'callDeepseekR1'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+Route::post('/HoTroNhanVienPetSpaApi/phantich', [AppController::class, 'aiPhanTichTaiChinh'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+// Route::get('/HoTroNhanVienPetSpaApi/phantich', [AppController::class, 'aiPhanTichTaiChinh']);

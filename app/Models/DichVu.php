@@ -16,8 +16,15 @@ class DichVu extends Model
         'forCat',
     ];
 
-    public function listDichVuCon() 
+    public function listDichVuCon()
     {
         return $this->hasMany(DichVuCon::class, 'dv_id', 'dv_id'); //class, foreignkey, localkey
+    }
+
+    public function getAverageCommission()
+    {
+        return ThongTinHoaHong::whereHas('getDichVuCon', function ($query) {
+            $query->whereIn('dvc_id', $this->listDichVuCon()->pluck('dvc_id'));
+        })->avg('hoa_hong'); // Tính trung bình hoa_hong
     }
 }
