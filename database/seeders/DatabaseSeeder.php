@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
                     'Cắt, mài móng' => [true, true, 0.05, 2],
                     'Cạo vệ sinh' => [true, true, 0.05, 2],
                     'Đánh răng' => [true, true, 0.05, 2],
-                    'Cạo vôi răng' => [true, false, 0.05, 2],
+                    'Cạo vôi răng' => [true, false, 0.15, 2],
                 ]
             ],
             'Cắt tỉa, gỡ rối' => [
