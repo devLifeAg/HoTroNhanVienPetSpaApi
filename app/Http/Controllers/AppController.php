@@ -411,9 +411,9 @@ class AppController extends Controller
         $prompt = "Phân tích cho tôi phải làm những gì để đạt mức thu nhập " . $soTienMuonDat . " đồng trong " . $thoiGian . " với các số liệu sau: "
             . "Lương cứng và phụ cấp một tháng nếu không có ngày nghỉ: "
             . "Lương cứng: 5000000 đồng, "
-            . "Phụ cấp: 750000 đồng, tăng ca 1h 25000 đồng. "
+            . "Phụ cấp: 900000 đồng, tăng ca 1h 30000 đồng. "
             . "Trung bình tiền hoa hồng của mỗi dịch vụ làm cho chó mèo: "
-            . $servicesText . ". Hãy trả lời ngắn gọn bằng tiếng việt và không dùng ký hiệu đặc biệt";
+            . $servicesText . ". Hãy ưu tiên gợi ý dịch vụ làm, trả lời ngắn gọn bằng tiếng việt và không dùng ký hiệu đặc biệt";
             
         // Gọi API OpenRouter thông qua callDeepseekR1
         $apiResponse = $this->callDeepseekR1($prompt);
