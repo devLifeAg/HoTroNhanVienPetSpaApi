@@ -3,7 +3,7 @@
 use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
-    return view('welcome');
+    return view('success');
 });
 
 Route::post('/HoTroNhanVienPetSpaApi/login', [AppController::class, 'Login'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
@@ -33,4 +33,3 @@ Route::get('/HoTroNhanVienPetSpaApi/getbangluong', [AppController::class, 'getBa
 //call api
 Route::post('/callDeepSeekAPI', [AppController::class, 'callDeepseekR1'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 Route::post('/HoTroNhanVienPetSpaApi/phantich', [AppController::class, 'aiPhanTichTaiChinh'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
-// Route::get('/HoTroNhanVienPetSpaApi/phantich', [AppController::class, 'aiPhanTichTaiChinh']);
